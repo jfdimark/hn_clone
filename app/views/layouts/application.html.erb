@@ -52,6 +52,7 @@
                               new_link_path %></li>
                   <li><%= link_to "Log Out", log_out_path %></li>
                 <% else %>
+                  <li><%= link_to "Sign Up", sign_up_path %></li>
                   <li><%= link_to "Log In", log_in_path %></li>
                 <% end %>
               </li>
@@ -76,6 +77,7 @@
       </footer>
 
 <%= debug params %>
+<%= session %>
 
     </div> <!-- /container -->
 

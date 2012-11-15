@@ -2,8 +2,9 @@ class CreateLinks < ActiveRecord::Migration
   def change
     create_table :links do |t|
       t.string :url
-      t.text :body
+      t.string :title
       t.integer :user_id
+      t.integer :comment_count, :default => 0
 
       t.timestamps
     end

@@ -1,0 +1,37 @@
+<%- model_class = Comment -%>
+<div class="page-header">
+  <h2><%=t '.title', :default => model_class.model_name.human.pluralize %></h2>
+</div>
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <td>Upvote</td>
+      <td><%= link_to @link.title, @link.url %></td>
+      <td><%= @link.user.username %></td>
+      <td><%= time_ago_in_words(@link.created_at) %> ago</td>
+      <td><%= link_to @link.comment_count, link_comments_path(@link) %> comments</td>
+    </tr>
+  </tbody>
+</table>
+
+<%= render 'form' %>
+
+<% if @comments %>
+  <table class="table table-striped">
+    <tbody>
+      <% @comments.each do |comment| %>
+        <tr>
+          <td>
+              <div class="span2"><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago<br /></div>
+              <div class="span5"><%= comment.body %></div>
+              <% if session[:user_id] == comment.user.id %>
+                <%= link_to "Edit", edit_link_comment_path(@link, comment),
+                            :class => "span1" %>
+              <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

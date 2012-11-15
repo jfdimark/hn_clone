@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password_digest, :username, :password_confirmation, :password
   has_secure_password
+  has_many :links
+  has_many :comments
 
   # validates_confirmation_of :password
   validates :password_digest, :presence => true, :on => :create

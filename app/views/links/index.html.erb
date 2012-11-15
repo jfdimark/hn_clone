@@ -2,12 +2,29 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
+
+<table class="table table-striped">
+  <tbody>
+    <% @links.each_with_index do |link, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td>Upvote</td>
+        <td><%= link_to link.title, link.url %></td>
+        <td><%= link.user.username %></td>
+        <td><%= time_ago_in_words(link.created_at) %> ago</td>
+        <td><%= link_to link.comment_count, link_comments_path(link) %> comments</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:url) %></th>
-      <th><%= model_class.human_attribute_name(:body) %></th>
+      <th><%= model_class.human_attribute_name(:title) %></th>
       <th><%= model_class.human_attribute_name(:user_id) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -18,7 +35,7 @@
       <tr>
         <td><%= link_to link.id, link_path(link) %></td>
         <td><%= link.url %></td>
-        <td><%= link.body %></td>
+        <td><%= link.title %></td>
         <td><%= link.user_id %></td>
         <td><%=l link.created_at %></td>
         <td>
