@@ -1,4 +1,19 @@
 HnClone::Application.routes.draw do
+  get "sessions/new"
+
+  root :to => 'links#index'
+
+  get "log_out" => "sessions#destroy", :as => "log_out"
+  get "log_in"  => "sessions#new", :as => "log_in"
+  get "sign_up" => "users#new", :as => "sign_up"
+  post "log_in" => "sessions#create", :as => "sessions"
+
+  resources :links do
+    resources :comments
+    resources :votes
+  end
+  resources :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
