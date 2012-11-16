@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
     @link = Link.find_by_id(params[:link_id])
     @comment = Comment.new
     @comments = Comment.find_all_by_link_id(params[:link_id])
+    @nested_comments = Comment.parse_comments!(params[:link_id])
   end
 
   def create
@@ -36,6 +37,14 @@ class CommentsController < ApplicationController
     @link = @comment.link
     @comment.update_attributes(params[:comment])
     redirect_to link_comments_path(params[:link_id]), :notice => "Comment updated!"
+  end
+
+  # This action makes the form to create a new comment reply, and a parent_id is required.
+  # To make a new comment, see "create" action above.
+  def new
+    @parent_comment = Comment.find(params[:parent_id])
+    @link = @parent_comment.link
+    @comment = Comment.new
   end
 
   # def destroy

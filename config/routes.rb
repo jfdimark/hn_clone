@@ -14,6 +14,8 @@ HnClone::Application.routes.draw do
   end
   resources :users
 
+  get "/links/:link_id/comments/:parent_id/new" => "comments#new", :as => "new_comment_reply"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

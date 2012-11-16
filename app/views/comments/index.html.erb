@@ -22,23 +22,50 @@
   <%= render 'form' %>
 <% end %>
 
-<% if @comments %>
+<% if @nested_comments %>
   <table class="table table-striped">
     <tbody>
-      <% @comments.each do |comment| %>
+      <% @nested_comments.each do |comment| %>
+        <% if comment.is_a? Array %>
+          <% comment.each do |child_comment| %>
+            <tr class="span9">
+              <td>
+                <div class="span2">
+                    <small><%= "by #{child_comment.user.username} |
+                                #{time_ago_in_words(child_comment.created_at)}" %> ago
+                    </small><br />
+                </div>
+                <div class="span5"><%= child_comment.body %></div>
+                <div class="pull-right span1">
+                <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
+                    <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment),
+                                :class => "span1" %></small>
+                <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
         <tr>
           <td>
-              <div class="span2">
-                  <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small><br />
-              </div>
-              <div class="span5"><%= comment.body %></div>
-              <% if session[:user_id] == comment.user.id and comment.editable? %>
-                  <small><%= link_to "Edit", edit_link_comment_path(@link, comment),
-                              :class => "span1" %></small>
-              <% end %>
+            <div class="span2">
+                <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small><br />
+            </div>
+            <div class="span5"><%= comment.body %></div>
+            <div class="span1">
+              <small><%= link_to "Reply", new_comment_reply_path(@link, comment.id) %></small>
+            </div>
+            <div class="pull-right span1">
+            <% if session[:user_id] == comment.user.id and comment.editable? %>
+                <small><%= link_to "Edit", edit_link_comment_path(@link, comment),
+                            :class => "span1" %></small>
+            <% end %>
+            </div>
           </td>
         </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
 <% end %>
+

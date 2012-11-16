@@ -1,0 +1,20 @@
+<%- model_class = Comment -%>
+<div class="page-header">
+  <h2>Add Comment Reply</h2>
+</div>
+
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <td>
+          <div class="span2">
+              <small><%= "by #{@parent_comment.user.username} | #{time_ago_in_words(@parent_comment.created_at)}" %> ago</small>
+              <br />
+          </div>
+          <div class="span5"><%= @parent_comment.body %></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<%= render :partial => 'form' %>
