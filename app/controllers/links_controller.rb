@@ -18,4 +18,30 @@ class LinksController < ApplicationController
       render 'new'
     end
   end
+
+  def edit
+    @link = Link.find(params[:id])
+    if @link.user.id == session[:user_id]
+      @user = @link.user
+    else
+      redirect_to root_path, alert: "You are not authorized to edit this link."
+    end
+  end
+
+  def update
+    @link = Link.find(params[:id])
+    @link.update_attributes(params[:link])
+    redirect_to root_path
+  end
+
+  def destroy
+    @link = Link.find(params[:id])
+    if @link.user.id == session[:user_id]
+      @link.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path, alert: "You are not authorized to edit this link."
+    end
+  end
+
 end

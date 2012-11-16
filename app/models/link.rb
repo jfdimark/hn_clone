@@ -7,6 +7,10 @@ class Link < ActiveRecord::Base
   has_many :votes
   belongs_to :user
 
+
+  def votes
+    Vote.find_all_by_link_id(id).count
+  end
 end
 
 # Use this to have Faker generate fake data

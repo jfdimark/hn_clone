@@ -3,4 +3,8 @@ class Comment < ActiveRecord::Base
   belongs_to :link
   belongs_to :user
   validates :body, :presence => true
+
+  def editable?
+    Time.now - created_at <= 900
+  end
 end

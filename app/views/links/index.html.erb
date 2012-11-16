@@ -8,45 +8,29 @@
     <% @links.each_with_index do |link, index| %>
       <tr>
         <td><small><%= index + 1 %></small></td>
-        <td><small>Upvote</small></td>
-        <td><%= link_to link.title, link.url %></td>
-        <td><small><%= link.user.username %></small></td>
+        <td><small><%= link_to "<i class=\"icon-thumbs-up\"></i>".html_safe,
+                link_votes_path(link),
+                :method => :post %></small></td>
+        <td><div class="span1">
+                <small><%= link.votes %> pts</small></div></td>
+        <td><div class="span5"><%= link_to link.title, link.url %></td>
+        <td><small><%= link.user.username %></small></div></td>
         <td><div class="span1"><small><%= time_ago_in_words(link.created_at) %> ago</small></div></td>
         <td><div class="span1"><small><%= link_to link.comment_count, link_comments_path(link) %> comments</small></div></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:url) %></th>
-      <th><%= model_class.human_attribute_name(:title) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @links.each do |link| %>
-      <tr>
-        <td><%= link_to link.id, link_path(link) %></td>
-        <td><%= link.url %></td>
-        <td><%= link.title %></td>
-        <td><%= link.user_id %></td>
-        <td><%=l link.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+        <% if session[:user_id] == link.user.id %>
+          <td>
+            <div class="span1">
+              <%= link_to "<i class=\"icon-pencil\"></i>".html_safe,
                       edit_link_path(link), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              <%= link_to "<i class=\"icon-remove\"></i>".html_safe,
                       link_path(link),
                       :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :data => { :confirm => t('.confirm',
+                                 :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-mini btn-danger' %>
-        </td>
+            </div>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

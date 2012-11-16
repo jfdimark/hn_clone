@@ -57,6 +57,11 @@
                 <% end %>
               </li>
             </ul>
+            <% if session[:user_id] %>
+              <ul class="nav pull-right">
+                <p class="navbar-text"><%= User.find(session[:user_id]).username %></p>
+              </ul>
+            <% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>
