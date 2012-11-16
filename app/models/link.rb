@@ -8,18 +8,22 @@ class Link < ActiveRecord::Base
   belongs_to :user
 
 
-  def votes
+  def vote_count
     Vote.find_all_by_link_id(id).count
   end
 
   def calc_points
     time = (Time.now - created_at)/3600
-    points = (votes / time*5).ceil
+    points = (vote_count / time*5).ceil
   end
 
   def self.update_points
     links = Link.all
     links.each { |link| link.update_attributes(:points => link.calc_points) }
+  end
+
+  def votable?(current_user_id)
+    (current_user_id != self.user_id) && (self.votes.where(:user_id => current_user_id).count == 0)
   end
 
 end

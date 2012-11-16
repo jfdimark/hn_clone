@@ -1,7 +1,8 @@
 class VotesController < ApplicationController
   def create
     unless session[:user_id]
-      redirect_to root_url, :alert => "You are not allowed to vote."
+      redirect_to root_url, :alert => "You must be logged in to vote."
+      return
     end
 
     @vote = Vote.new(:user_id => session[:user_id], :link_id => params[:link_id])
