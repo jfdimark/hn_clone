@@ -1,5 +1,5 @@
 class Link < ActiveRecord::Base
-  attr_accessible :title, :url, :user_id, :comment_count
+  attr_accessible :title, :url, :user_id, :comment_count, :points
 
   validates :title, :url, :presence => true
   validates :url, :uniqueness => true
@@ -11,6 +11,17 @@ class Link < ActiveRecord::Base
   def votes
     Vote.find_all_by_link_id(id).count
   end
+
+  def calc_points
+    time = (Time.now - created_at)/3600
+    points = (votes / time*5).ceil
+  end
+
+  def self.update_points
+    links = Link.all
+    links.each { |link| link.update_attributes(:points => link.calc_points) }
+  end
+
 end
 
 # Use this to have Faker generate fake data

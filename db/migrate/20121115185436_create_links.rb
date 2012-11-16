@@ -5,6 +5,7 @@ class CreateLinks < ActiveRecord::Migration
       t.string :title
       t.integer :user_id
       t.integer :comment_count, :default => 0
+      t.integer :points, :default => 0
 
       t.timestamps
     end

@@ -12,7 +12,7 @@
                 link_votes_path(link),
                 :method => :post %></small></td>
         <td><div class="span1">
-                <small><%= link.votes %> pts</small></div></td>
+                <small><%= link.points %> pts</small></div></td>
         <td><div class="span5"><%= link_to link.title, link.url %></td>
         <td><small><%= link.user.username %></small></div></td>
         <td><div class="span1"><small><%= time_ago_in_words(link.created_at) %> ago</small></div></td>
