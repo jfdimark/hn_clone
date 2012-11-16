@@ -7,12 +7,12 @@
   <tbody>
     <% @links.each_with_index do |link, index| %>
       <tr>
-        <td><%= index + 1 %></td>
-        <td>Upvote</td>
+        <td><small><%= index + 1 %></small></td>
+        <td><small>Upvote</small></td>
         <td><%= link_to link.title, link.url %></td>
-        <td><%= link.user.username %></td>
-        <td><%= time_ago_in_words(link.created_at) %> ago</td>
-        <td><%= link_to link.comment_count, link_comments_path(link) %> comments</td>
+        <td><small><%= link.user.username %></small></td>
+        <td><div class="span1"><small><%= time_ago_in_words(link.created_at) %> ago</small></div></td>
+        <td><div class="span1"><small><%= link_to link.comment_count, link_comments_path(link) %> comments</small></div></td>
       </tr>
     <% end %>
   </tbody>
@@ -51,3 +51,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @links %>

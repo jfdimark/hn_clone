@@ -1,6 +1,7 @@
 class LinksController < ApplicationController
   def index
-    @links = Link.all
+    all_links = Link.order('created_at')
+    @links = all_links.page(params[:page]).per(20)
   end
 
   def new

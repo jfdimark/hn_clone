@@ -8,3 +8,9 @@ class Link < ActiveRecord::Base
   belongs_to :user
 
 end
+
+# Use this to have Faker generate fake data
+# 100.times do
+#   link = Link.new(:title => Faker::Lorem.sentence(7), :url => Faker::Internet.url, :user_id => 1)
+#   link.save
+# end

@@ -23,12 +23,18 @@
       <% @comments.each do |comment| %>
         <tr>
           <td>
+
+              <small>
               <div class="span2"><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago<br /></div>
+              </small>
               <div class="span5"><%= comment.body %></div>
               <% if session[:user_id] == comment.user.id %>
-                <%= link_to "Edit", edit_link_comment_path(@link, comment),
-                            :class => "span1" %>
+                <small>
+                  <%= link_to "Edit", edit_link_comment_path(@link, comment),
+                              :class => "span1" %>
+                </small>
               <% end %>
+
           </td>
         </tr>
       <% end %>
