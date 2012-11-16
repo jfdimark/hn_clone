@@ -6,6 +6,4 @@ class Vote < ActiveRecord::Base
   def votable?(submitter_id)
     (submitter_id != user_id) && (Vote.where("link_id = ? AND user_id = ?", link_id, user_id).count == 0)
   end
-
-
 end

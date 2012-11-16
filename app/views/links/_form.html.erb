@@ -3,34 +3,31 @@
     <div class="error_messages">
       <h3>Form is invalid</h3>
       <ul>
+        <div class="alert alert-error">
         <% for message in @link.errors.full_messages %>
           <li><%= message %></li>
         <% end %>
+        </div>
       </ul>
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :url, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :url, :class => 'text_field' %>
-    </div>
-  </div>
   <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :title, :class => 'text_field' %>
     </div>
   </div>
+
   <div class="control-group">
-    <%= f.label :user_id, :class => 'control-label' %>
+    <%= f.label :url, :class => 'control-label' %>
     <div class="controls">
-      <%= f.number_field :user_id, :class => 'number_field', :readonly => "readonly",
-          :value => @user.id %>
+      <%= f.text_field :url, :class => 'text_field input-xxlarge' %>
     </div>
   </div>
 
   <div class="form-actions">
+    <%= f.hidden_field :user_id, :value => @user.id %>
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 links_path, :class => 'btn' %>

@@ -9,10 +9,11 @@
       <td><%= link_to "<i class=\"icon-thumbs-up\"></i>".html_safe,
               link_votes_path(@link),
               :method => :post %></td>
+      <td><%= @link.points %> pts</td>
       <td><%= link_to @link.title, @link.url %></td>
       <td><%= @link.user.username %></td>
       <td><%= time_ago_in_words(@link.created_at) %> ago</td>
-      <td><%= link_to @link.comment_count, link_comments_path(@link) %> comments</td>
+      <td><%= @link.comment_count %> comments</td>
     </tr>
   </tbody>
 </table>
@@ -27,20 +28,14 @@
       <% @comments.each do |comment| %>
         <tr>
           <td>
-
-              <small>
-                <div class="span2">
-                  <%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago<br />
-                </div>
-              </small>
+              <div class="span2">
+                  <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small><br />
+              </div>
               <div class="span5"><%= comment.body %></div>
               <% if session[:user_id] == comment.user.id and comment.editable? %>
-                <small>
-                  <%= link_to "Edit", edit_link_comment_path(@link, comment),
-                              :class => "span1" %>
-                </small>
+                  <small><%= link_to "Edit", edit_link_comment_path(@link, comment),
+                              :class => "span1" %></small>
               <% end %>
-
           </td>
         </tr>
       <% end %>

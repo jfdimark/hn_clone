@@ -48,7 +48,7 @@
           <div class="container nav-collapse">
             <ul class="nav">
                 <% if session[:user_id] %>
-                  <li><%= link_to t('.new', :default => t("helpers.links.new")),
+                  <li><%= link_to "<i class=\"icon-plus\"></i>".html_safe+"New",
                               new_link_path %></li>
                   <li><%= link_to "Log Out", log_out_path %></li>
                 <% else %>
@@ -81,14 +81,8 @@
         <p>&copy; Brent & Julie 2012</p>
       </footer>
 
-<%= debug params %>
-<%= session %>
-
     </div> <!-- /container -->
 
-    <!-- Javascripts
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
 
   </body>

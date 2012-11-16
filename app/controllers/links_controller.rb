@@ -1,7 +1,11 @@
 class LinksController < ApplicationController
   def index
     Link.update_points
-    all_links = Link.order('points DESC')
+    if (params[:order_by])
+      all_links = Link.order("#{params[:order_by]} DESC")
+    else
+      all_links = Link.order('points DESC')
+    end
     @links = all_links.page(params[:page]).per(20)
   end
 

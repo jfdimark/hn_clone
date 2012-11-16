@@ -1,7 +1,13 @@
 <%- model_class = Link -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h2>Awesome Links!</h2>
 </div>
+
+<p>
+  <%= link_to "top", {:controller => "links", :action => "index", :order_by => "points"} %>
+  &nbsp;
+  <%= link_to "new", {:controller => "links", :action => "index", :order_by => "created_at"} %>
+</p>
 
 <table class="table table-striped">
   <tbody>
@@ -16,7 +22,11 @@
         <td><div class="span5"><%= link_to link.title, link.url %></td>
         <td><small><%= link.user.username %></small></div></td>
         <td><div class="span1"><small><%= time_ago_in_words(link.created_at) %> ago</small></div></td>
-        <td><div class="span1"><small><%= link_to link.comment_count, link_comments_path(link) %> comments</small></div></td>
+        <td>
+          <div class="span1">
+            <small><%= link_to "#{link.comment_count} comments", link_comments_path(link) %></small>
+          </div>
+        </td>
         <% if session[:user_id] == link.user.id %>
           <td>
             <div class="span1">
