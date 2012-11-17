@@ -59,7 +59,7 @@
             </ul>
             <% if session[:user_id] %>
               <ul class="nav pull-right">
-                <p class="navbar-text"><%= User.find(session[:user_id]).username %></p>
+                <p class="navbar-text"><%= "#{User.find(session[:user_id]).username},  My Karma Points:#{User.find(session[:user_id]).karma}" %></p>
               </ul>
             <% end %>
           </div><!--/.nav-collapse -->
