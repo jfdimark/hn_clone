@@ -2,10 +2,15 @@ class Comment < ActiveRecord::Base
   attr_accessible :body, :link_id, :user_id, :parent_id
   belongs_to :link
   belongs_to :user
+  has_many :comments, :as => :object
   validates :body, :presence => true
 
   def editable?
     Time.now - created_at <= 900
+  end
+
+  def vote_count
+    Vote.find_all_by_object_id(id).count #TODO: also add type=Link
   end
 
   def self.parse_comments!(link_id)
@@ -21,4 +26,13 @@ class Comment < ActiveRecord::Base
     end
     collection
   end
+
+  def comment_votable?(current_user_id)
+    (current_user_id != self.user_id) && (self.collected_votes.all? { |vote| vote.user_id != current_user_id })
+  end
+
+  def collected_votes
+    Vote.find_all_by_object_id(id)
+  end
+
 end

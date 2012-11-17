@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 
   def index
+    #Comment.update_votes
     @link = Link.find_by_id(params[:link_id])
     @comment = Comment.new
     @comments = Comment.find_all_by_link_id(params[:link_id])

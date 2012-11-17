@@ -14,8 +14,15 @@
     <% @links.each_with_index do |link, index| %>
       <tr>
         <td><small><%= index + 1 %></small></td>
-        <td><small><%= link_to_if link.votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,
-                link_votes_path(link),
+        <td><small><%= link_to_if link.link_votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,
+                #link_votes_path(link.id),
+
+
+
+                object_votes_path(link),
+
+
+
                 :method => :post %></small></td>
         <td><div class="span1">
                 <small><%= link.points %> pts</small></div></td>
@@ -31,7 +38,7 @@
           <td>
             <div class="span1">
               <%= link_to "<i class=\"icon-pencil\"></i>".html_safe,
-                      edit_link_path(link), :class => 'btn btn-mini' %>
+                      edit_link_path(link.id), :class => 'btn btn-mini' %>
               <%= link_to "<i class=\"icon-remove\"></i>".html_safe,
                       link_path(link),
                       :method => :delete,

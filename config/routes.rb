@@ -10,11 +10,13 @@ HnClone::Application.routes.draw do
 
   resources :links do
     resources :comments
-    resources :votes
+    #resources :votes
   end
+  resources :votes#should this be out here?
   resources :users
 
   get "/links/:link_id/comments/:parent_id/new" => "comments#new", :as => "new_comment_reply"
+  post "/votes/:object_id" => "votes#create", :as => "object_votes"#not sure about this either
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

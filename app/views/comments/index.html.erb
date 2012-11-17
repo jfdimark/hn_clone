@@ -6,8 +6,8 @@
 <table class="table table-striped">
   <tbody>
     <tr>
-      <td><%= link_to_if @link.votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,
-              link_votes_path(@link),
+      <td><%= link_to_if @link.link_votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,
+              object_votes_path(@link),
               :method => :post %></td>
       <td><%= @link.points %> pts</td>
       <td><%= link_to @link.title, @link.url %></td>
@@ -30,17 +30,27 @@
           <% comment.each do |child_comment| %>
             <tr class="span9">
               <td>
+                <div class="span1">
+                  <small><%= link_to_if child_comment.comment_votable?(session[:user_id]),
+                        "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(child_comment),
+                        :method => :post %>
+                  </small>
+                </div>
+
+               <div class="span1">
+                        <small><%= "#{pluralize(child_comment.vote_count, "vote")}" %></small></div>
+
                 <div class="span2">
                     <small><%= "by #{child_comment.user.username} |
                                 #{time_ago_in_words(child_comment.created_at)}" %> ago
                     </small><br />
                 </div>
-                <div class="span5"><%= child_comment.body %></div>
-                <div class="pull-right span1">
-                <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
-                    <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment),
-                                :class => "span1" %></small>
-                <% end %>
+                <div class="span4"><%= child_comment.body %></div>
+                <div class="span1 pull-right">
+                  <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
+                      <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment),
+                                  :class => "span1" %></small>
+                  <% end %>
                 </div>
               </td>
             </tr>
@@ -48,6 +58,16 @@
         <% else %>
         <tr>
           <td>
+            <div>
+              <small><%= link_to_if comment.comment_votable?(session[:user_id]),
+                    "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
+                    :method => :post %>
+              </small>
+            </div>
+
+            <div class="span1">
+                     <small><%= "#{pluralize(comment.vote_count, "vote")}" %></small></div>
+
             <div class="span2">
                 <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small><br />
             </div>

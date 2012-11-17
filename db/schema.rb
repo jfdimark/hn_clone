@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121116193706) do
+ActiveRecord::Schema.define(:version => 20121117020010) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "link_id"
     t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "parent_id"
+    t.integer  "vote_count", :default => 0
   end
 
   create_table "links", :force => true do |t|
@@ -42,9 +43,10 @@ ActiveRecord::Schema.define(:version => 20121116193706) do
 
   create_table "votes", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "link_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "object_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "object_type"
   end
 
 end

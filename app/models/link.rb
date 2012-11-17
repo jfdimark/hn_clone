@@ -4,12 +4,15 @@ class Link < ActiveRecord::Base
   validates :title, :url, :presence => true
   validates :url, :uniqueness => true
   has_many :comments
-  has_many :votes
+  has_many :votes, :as => :object
   belongs_to :user
 
+  def collected_votes
+    Vote.find_all_by_object_id(id)
+  end
 
   def vote_count
-    Vote.find_all_by_link_id(id).count
+    Vote.find_all_by_object_id(id).count #TODO: also add type=Link
   end
 
   def calc_points
@@ -22,8 +25,8 @@ class Link < ActiveRecord::Base
     links.each { |link| link.update_attributes(:points => link.calc_points) }
   end
 
-  def votable?(current_user_id)
-    (current_user_id != self.user_id) && (self.votes.where(:user_id => current_user_id).count == 0)
+  def link_votable?(current_user_id)
+    (current_user_id != self.user_id) && (self.collected_votes.all? { |vote| vote.user_id != current_user_id })
   end
 
 end
