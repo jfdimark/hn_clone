@@ -15,17 +15,11 @@ class Comment < ActiveRecord::Base
 
   def self.parse_comments!(link_id, order_by)
     collection = []
-    comments = self.find_all_by_link_id(link_id)
-    if (order_by)
-      comments = Comment.order("#{order_by} DESC")
-    else
-      comments = Comment.order('created_at DESC')
-    end
-    comments.each_with_index do |comment, index|
+    comments = ordered_comments(link_id, order_by)
+    comments.each do |comment|
       if comment.parent_id == nil
         collection << comment
-        # push array of children if there are any
-        children_comments = self.find_all_by_parent_id(comment.id)
+        children_comments = Comment.find_all_by_parent_id(comment.id)
         collection << children_comments if children_comments.count > 0
       end
     end
@@ -44,5 +38,18 @@ class Comment < ActiveRecord::Base
   def collected_votes
     Vote.find_all_by_object_id(id)
   end
+
+  private
+
+  def self.ordered_comments(link_id, order_by)
+    if (order_by)
+      comments = Comment.order("#{order_by} DESC")
+    else
+      comments = Comment.order('created_at DESC')
+    end
+    comments.find_all_by_link_id(link_id)
+  end
+
+
 
 end

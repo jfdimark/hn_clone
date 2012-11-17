@@ -3,9 +3,9 @@ class Vote < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
   belongs_to :user
 
-  def votable?(submitter_id)
-    (submitter_id != user_id) && (Vote.where("object_id = ? AND user_id = ?", object_id, user_id).count == 0)
-  end
+  # def votable?(submitter_id)
+  #   (submitter_id != user_id) && (Vote.where("object_id = ? AND user_id = ?", object_id, user_id).count == 0)
+  # end
 
 end
 
