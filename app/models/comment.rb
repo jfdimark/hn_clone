@@ -19,7 +19,7 @@ class Comment < ActiveRecord::Base
     if (order_by)
       comments = Comment.order("#{order_by} DESC")
     else
-      comments = Comment.order('created_on DESC')
+      comments = Comment.order('created_at DESC')
     end
     comments.each_with_index do |comment, index|
       if comment.parent_id == nil
