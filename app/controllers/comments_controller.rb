@@ -1,11 +1,13 @@
 class CommentsController < ApplicationController
 
   def index
-    #Comment.update_votes
+    Comment.update_votes
     @link = Link.find_by_id(params[:link_id])
     @comment = Comment.new
-    @comments = Comment.find_all_by_link_id(params[:link_id])
-    @nested_comments = Comment.parse_comments!(params[:link_id])
+    #@comments = Comment.find_all_by_link_id(params[:link_id])
+
+    @nested_comments = Comment.parse_comments!(params[:link_id], params[:order_by])
+    #@nested_comments.page(params[:page]).per(20)
   end
 
   def create

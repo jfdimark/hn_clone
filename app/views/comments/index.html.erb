@@ -3,6 +3,7 @@
   <h2><%=t '.title', :default => model_class.model_name.human.pluralize %></h2>
 </div>
 
+
 <table class="table table-striped">
   <tbody>
     <tr>
@@ -22,65 +23,67 @@
   <%= render 'form' %>
 <% end %>
 
+<p>
+  <%= link_to "top", {:controller => "comments", :action => "index", :order_by => "vote_count"} %>
+  &nbsp;
+  <%= link_to "new", {:controller => "comments", :action => "index", :order_by => "created_at"} %>
+</p>
+
 <% if @nested_comments %>
   <table class="table table-striped">
     <tbody>
       <% @nested_comments.each do |comment| %>
         <% if comment.is_a? Array %>
           <% comment.each do |child_comment| %>
-            <tr class="span9">
+            <tr style="padding-left:10px">
               <td>
-                <div class="span1">
-                  <small><%= link_to_if child_comment.comment_votable?(session[:user_id]),
-                        "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(child_comment),
-                        :method => :post %>
-                  </small>
-                </div>
-
-               <div class="span1">
-                        <small><%= "#{pluralize(child_comment.vote_count, "vote")}" %></small></div>
-
-                <div class="span2">
-                    <small><%= "by #{child_comment.user.username} |
-                                #{time_ago_in_words(child_comment.created_at)}" %> ago
-                    </small><br />
-                </div>
-                <div class="span4"><%= child_comment.body %></div>
-                <div class="span1 pull-right">
-                  <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
-                      <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment),
-                                  :class => "span1" %></small>
-                  <% end %>
-                </div>
+                <small><%= link_to_if child_comment.comment_votable?(session[:user_id]),
+                      "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(child_comment),
+                      :method => :post %>
+                </small>
+              </td>
+              <td>
+                  <small><%= "#{pluralize(child_comment.vote_count, "vote")}" %></small>
+              </td>
+              <td>
+                <small><%= "by #{child_comment.user.username} |
+                            #{time_ago_in_words(child_comment.created_at)}" %> ago
+                </small>
+              </td>
+              <td>
+                <%= child_comment.body %>
+              </td>
+              <td>
+                <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
+                    <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment) %></small>
+                <% end %>
               </td>
             </tr>
           <% end %>
         <% else %>
         <tr>
           <td>
-            <div>
-              <small><%= link_to_if comment.comment_votable?(session[:user_id]),
-                    "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
-                    :method => :post %>
-              </small>
-            </div>
-
-            <div class="span1">
-                     <small><%= "#{pluralize(comment.vote_count, "vote")}" %></small></div>
-
-            <div class="span2">
-                <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small><br />
-            </div>
-            <div class="span5"><%= comment.body %></div>
-            <div class="span1">
-              <small><%= link_to "Reply", new_comment_reply_path(@link, comment.id) %></small>
-            </div>
-            <div class="pull-right span1">
+            <small><%= link_to_if comment.comment_votable?(session[:user_id]),
+                       "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
+                       :method => :post %>
+            </small>
+          </td>
+          <td>
+            <small><%= "#{pluralize(comment.vote_count, "vote")}" %></small>
+          </td>
+          <td>
+            <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small>
+          </td>
+          <td>
+            <%= comment.body %>
+          </td>
+          <td>
+            <small><%= link_to "Reply", new_comment_reply_path(@link, comment.id) %></small>
+          </td>
+          <td>
             <% if session[:user_id] == comment.user.id and comment.editable? %>
-                <small><%= link_to "Edit", edit_link_comment_path(@link, comment),
-                            :class => "span1" %></small>
+                <small><%= link_to "Edit", edit_link_comment_path(@link, comment) %></small>
             <% end %>
-            </div>
           </td>
         </tr>
         <% end %>
