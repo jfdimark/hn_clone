@@ -1,94 +1,93 @@
 <%- model_class = Comment -%>
-<div class="page-header">
+<!-- <div class="page-header">
   <h2><%=t '.title', :default => model_class.model_name.human.pluralize %></h2>
-</div>
+</div> -->
 
 
-<table class="table table-striped">
-  <tbody>
-    <tr>
-      <td><%= link_to_if @link.link_votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,
-              object_votes_path(@link),
-              :method => :post %></td>
-      <td><%= @link.points %> pts</td>
-      <td><%= link_to @link.title, @link.url %></td>
-      <td><%= @link.user.username %></td>
-      <td><%= time_ago_in_words(@link.created_at) %> ago</td>
-      <td><%= @link.comment_count %> comments</td>
-    </tr>
-  </tbody>
-</table>
+<p>
+  <span class="spread-word">
+    <%= link_to_if @link.link_votable?(session[:user_id]),"<i class=\"icon-thumbs-up\"></i>".html_safe,
+      object_votes_path(@link),
+      :method => :post %>
+  </span>
+  <%= link_to @link.title, @link.url %>
+</p>
+
+<p class="indent">
+    <%= @link.points %> pts.
+  <span class="spread-word">            
+    <%= " | " %>
+  </span>
+    <%="by: #{@link.user.username} " %>
+  <span class="spread-word">            
+    <%= " | " %>
+  </span>
+    <%= "#{time_ago_in_words(@link.created_at)} ago" %>
+  <span class="spread-word">            
+    <%= " | " %>
+  </span> 
+    <%= link_to "#{@link.comment_count} comments", link_comments_path(@link) %>
+</p>
 
 <% if session[:user_id] %>
   <%= render 'form' %>
 <% end %>
 
-<p>
-  <%= link_to "top", {:controller => "comments", :action => "index", :order_by => "vote_count"} %>
-  &nbsp;
-  <%= link_to "new", {:controller => "comments", :action => "index", :order_by => "created_at"} %>
-</p>
+<%= render 'layouts/sort_links' %>
 
 <% if @nested_comments %>
-  <table class="table table-striped">
-    <tbody>
-      <% @nested_comments.each do |comment| %>
-        <% if comment.is_a? Array %>
-          <% comment.each do |child_comment| %>
-            <tr style="padding-left:10px">
-              <td>
-                <small><%= link_to_if child_comment.comment_votable?(session[:user_id]),
-                      "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(child_comment),
-                      :method => :post %>
-                </small>
-              </td>
-              <td>
-                  <small><%= "#{pluralize(child_comment.vote_count, "vote")}" %></small>
-              </td>
-              <td>
-                <small><%= "by #{child_comment.user.username} |
-                            #{time_ago_in_words(child_comment.created_at)}" %> ago
-                </small>
-              </td>
-              <td>
-                <%= child_comment.body %>
-              </td>
-              <td>
-                <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
-                    <small><%= link_to "Edit", edit_link_comment_path(@link, child_comment) %></small>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        <% else %>
-        <tr>
-          <td>
-            <small><%= link_to_if comment.comment_votable?(session[:user_id]),
-                       "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
-                       :method => :post %>
-            </small>
-          </td>
-          <td>
-            <small><%= "#{pluralize(comment.vote_count, "vote")}" %></small>
-          </td>
-          <td>
-            <small><%= "by #{comment.user.username} | #{time_ago_in_words(comment.created_at)}" %> ago</small>
-          </td>
-          <td>
-            <%= comment.body %>
-          </td>
-          <td>
-            <small><%= link_to "Reply", new_comment_reply_path(@link, comment.id) %></small>
-          </td>
-          <td>
-            <% if session[:user_id] == comment.user.id and comment.editable? %>
-                <small><%= link_to "Edit", edit_link_comment_path(@link, comment) %></small>
+  <% @nested_comments.each do |comment| %>
+    <% if comment.is_a? Array %>
+      <% comment.each do |child_comment| %>
+        <div class="nested-comment">
+          <p>
+            <span class="spread-word">
+            <%= link_to_if child_comment.comment_votable?(session[:user_id]), "<i class=\"icon-thumbs-up\"></i>".html_safe,object_votes_path(child_comment), :method => :post %>
+            </span>
+            <%= "by #{child_comment.user.username}" %>
+            <span class="spread-word">
+              <%= " | " %>
+            </span>
+            <%= "#{time_ago_in_words(child_comment.created_at)} ago" %>
+          </p>
+          <p>
+            <span class="indent"><%= child_comment.body %></span>
+          </p>
+          <p>
+            <% if session[:user_id] == child_comment.user.id and child_comment.editable? %>
+              <%= link_to "Edit", edit_link_comment_path(@link, child_comment) %>
             <% end %>
-          </td>
-        </tr>
-        <% end %>
+          </p>
+        </div>
       <% end %>
-    </tbody>
-  </table>
+    <% else %>
+      <div class="comment">
+        <p>
+          <span class="spread-word">
+          <%= link_to_if comment.comment_votable?(session[:user_id]),
+                     "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
+                     :method => :post %>
+          </span>
+
+          <%= "by #{comment.user.username}" %> 
+          <span class="spread-word"><%= " | " %></span>
+          <%= "#{time_ago_in_words(comment.created_at)} ago" %> 
+        </p>
+
+        <div class="indent">
+        <p>
+          <%= comment.body %>
+        </p>
+
+        <p>
+          <small><%= link_to "Reply", new_comment_reply_path(@link, comment.id) %></small>
+          <% if session[:user_id] == comment.user.id and comment.editable? %>
+              <small><%= link_to "Edit", edit_link_comment_path(@link, comment) %></small>
+          <% end %>
+        </p>
+      </div>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>
 

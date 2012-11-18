@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "hacker newbs" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "hackernewbs" %></title>
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -39,28 +39,18 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="<%= root_path %>">hacker newbs</a>
-          <div class="container nav-collapse">
-            <ul class="nav">
+          <a class="brand" href="<%= root_path %>">hackernewbs</a>
                 <% if session[:user_id] %>
-                  <li><%= link_to "<i class=\"icon-plus\"></i>".html_safe+"New",
-                              new_link_path %></li>
-                  <li><%= link_to "Log Out", log_out_path %></li>
+                  <%= link_to "<i class=\"icon-plus\"></i>".html_safe+"New",
+                              new_link_path %>
+                  <%= link_to "Log Out", log_out_path %>
                 <% else %>
-                  <li><%= link_to "Sign Up", sign_up_path %></li>
-                  <li><%= link_to "Log In", log_in_path %></li>
+                  <%= link_to "Sign Up", sign_up_path %>
+                  <%= link_to "Log In", log_in_path %>
                 <% end %>
-              </li>
-            </ul>
+      
             <% if session[:user_id] %>
-              <ul class="nav pull-right">
-                <p class="navbar-text"><span class="spread-word"><%= "#{User.find(session[:user_id]).username} | Karma:#{User.find(session[:user_id]).karma}" %></span></p>
-              </ul>
+              <span class="pull-right"><p><%= "#{User.find(session[:user_id]).username}   |   My Karma Points:#{User.find(session[:user_id]).karma}" %></p></span>
             <% end %>
           </div><!--/.nav-collapse -->
         </div>

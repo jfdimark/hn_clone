@@ -10,8 +10,8 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :body, :class => 'control-label' %>
+  <div>
+    <%= f.label :comment, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_area :body, :class => 'text_area span4', :rows => 10 %>
     </div>
@@ -23,7 +23,7 @@
     <% if @parent_comment %>
       <%= f.hidden_field :parent_id, :value => @parent_comment.id %>
     <% end %>
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, :class => 'btn' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 links_path, :class => 'btn' %>
   </div>
