@@ -5,20 +5,20 @@
 
 
 <p>
-
-  <span class="spread-word">
-    <%= link_to_if votable?(@link),"<i class=\"icon-thumbs-up\"></i>".html_safe,
-      object_votes_path(@link),
-      :method => :post %>
-  </span>
-
+  <% if @current_user %>
+    <span class="spread-word">
+      <%= link_to_if votable?(@link),"<i class=\"icon-thumbs-up\"></i>".html_safe,
+        object_votes_path(@link),
+        :method => :post %>
+    </span>
+  <% end %>
 
 
   <%= link_to @link.title, @link.url %>
 </p>
 
 <p class="indent">
-    <%= @link.points %> pts.
+    <%= pluralize(@link.points, 'pt') %> 
   <span class="spread-word">            
     <%= " | " %>
   </span>
@@ -45,9 +45,11 @@
       <% comment.each do |child_comment| %>
         <div class="nested-comment">
           <p>
-            <span class="spread-word">
-            <%= link_to_if votable?(child_comment), "<i class=\"icon-thumbs-up\"></i>".html_safe,object_votes_path(child_comment), :method => :post %>
-            </span>
+            <% if @current_user %>
+              <span class="spread-word">
+                <%= link_to_if votable?(child_comment), "<i class=\"icon-thumbs-up\"></i>".html_safe,object_votes_path(child_comment), :method => :post %>
+              </span>
+            <% end %>
             <%= "by #{child_comment.user.username}" %>
             <span class="spread-word">
               <%= " | " %>
@@ -67,12 +69,13 @@
     <% else %>
       <div class="comment">
         <p>
-          <span class="spread-word">
-          <%= link_to_if votable?(comment),
-                     "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
-                     :method => :post %>
-          </span>
-
+          <% if @current_user %>
+            <span class="spread-word">
+              <%= link_to_if votable?(comment),
+                         "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
+                         :method => :post %>
+            </span>
+          <% end %>
           <%= "by #{comment.user.username}" %> 
           <span class="spread-word"><%= " | " %></span>
           <%= "#{time_ago_in_words(comment.created_at)} ago" %> 
