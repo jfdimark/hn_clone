@@ -1,4 +1,5 @@
 class LinksController < ApplicationController
+
   def index
     Link.update_points
     if (params[:order_by])
