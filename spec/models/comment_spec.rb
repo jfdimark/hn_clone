@@ -1,5 +1,12 @@
 require 'spec_helper'
 
 describe Comment do
-  pending "add some examples to (or delete) #{__FILE__}"
+	subject { Comment.new }
+
+	context 'when initiated' do
+		it 'responds to body' do
+			subject { should respond_to :body }
+		end
+	end
+
 end
