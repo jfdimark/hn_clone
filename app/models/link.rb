@@ -11,6 +11,10 @@ class Link < ActiveRecord::Base
     Vote.find_all_by_object_id(id)
   end
 
+  # def vote_count
+  #   @vote_count ||= votes.count
+  # end
+
   def vote_count
     Vote.find_all_by_object_id(id).count #TODO: also add type=Link
   end
@@ -25,9 +29,13 @@ class Link < ActiveRecord::Base
     links.each { |link| link.update_attributes(:points => link.calc_points) }
   end
 
-  def link_votable?(current_user_id)
-    (current_user_id != self.user_id) && (self.collected_votes.all? { |vote| vote.user_id != current_user_id })
+  def self.per_page
+    20
   end
+
+  # def link_votable?(current_user_id)
+  #   (current_user_id != self.user_id) && (self.collected_votes.all? { |vote| vote.user_id != current_user_id })
+  # end
 
 end
 

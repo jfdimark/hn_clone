@@ -31,10 +31,6 @@ class Comment < ActiveRecord::Base
     comments.each { |comment| comment.update_attributes(:vote_count => Vote.find_all_by_object_id(comment.id).count) }
   end
 
-  def comment_votable?(current_user_id)
-    (current_user_id != self.user_id) && (self.collected_votes.all? { |vote| vote.user_id != current_user_id })
-  end
-
   def collected_votes
     Vote.find_all_by_object_id(id)
   end

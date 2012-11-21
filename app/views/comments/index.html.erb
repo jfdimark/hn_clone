@@ -37,7 +37,16 @@
   <%= render 'form' %>
 <% end %>
 
-<%= render 'layouts/sort_links' %>
+<div class="sort_links">
+  <p> 
+    <%= "sort by:  " %>
+    <span class="spread-word">
+    <%= link_to "popular", {:controller => "comments", :action => "index", :order_by => "vote_count"} %>
+    <%= " | " %>
+    <%= link_to "recent", {:controller => "comments", :action => "index", :order_by => "created_at"} %>
+  </span>
+  </p>
+</div>
 
 <% if @nested_comments %>
   <% @nested_comments.each do |comment| %>
