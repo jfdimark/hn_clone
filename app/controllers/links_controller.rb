@@ -8,7 +8,11 @@ class LinksController < ApplicationController
       all_links = Link.order('points DESC')
     end
     @links = all_links.page(params[:page]).per(Link.per_page)
-    @page_offset = params[:page].to_i * Link.per_page
+    if (params[:page])
+      @page_offset = (params[:page].to_i - 1) * Link.per_page
+    else
+      @page_offset = 0
+    end
   end
 
   def new

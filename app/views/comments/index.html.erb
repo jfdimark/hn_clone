@@ -8,7 +8,7 @@
   <% if @current_user %>
     <span class="spread-word">
       <%= link_to_if votable?(@link),"<i class=\"icon-thumbs-up\"></i>".html_safe,
-        object_votes_path(@link),
+        object_votes_path(@link.class, @link.id),
         :method => :post %>
     </span>
   <% end %>
@@ -56,7 +56,7 @@
           <p>
             <% if @current_user %>
               <span class="spread-word">
-                <%= link_to_if votable?(child_comment), "<i class=\"icon-thumbs-up\"></i>".html_safe,object_votes_path(child_comment), :method => :post %>
+                <%= link_to_if votable?(child_comment), "<i class=\"icon-thumbs-up\"></i>".html_safe,object_votes_path(child_comment.class, child_comment.id), :method => :post %>
               </span>
             <% end %>
             <%= "by #{child_comment.user.username}" %>
@@ -81,7 +81,7 @@
           <% if @current_user %>
             <span class="spread-word">
               <%= link_to_if votable?(comment),
-                         "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment),
+                         "<i class=\"icon-thumbs-up\"></i>".html_safe, object_votes_path(comment.class, comment.id),
                          :method => :post %>
             </span>
           <% end %>

@@ -28,7 +28,7 @@
           <%= "#{index + 1 + @page_offset}." %>
           <% if @current_user %>
             <%= link_to_if votable?(link), "<i class=\"icon-thumbs-up\"></i>".html_safe,
-                  object_votes_path(link), :method => :post %>
+                  object_votes_path(link.class, link.id), :method => :post %>
           <% end %>
         </span>
 
