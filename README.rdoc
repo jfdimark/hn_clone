@@ -1,5 +1,0 @@
-Hacker News Clone exercise for Dev Bootcamp.
-
-Building a Hacker News clone in Rails.
-
-This is an exercise to get accustomed to building in Rails from scratch. There are no tests.
