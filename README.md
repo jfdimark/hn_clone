@@ -1,6 +1,7 @@
 # Hacker News Clone
 
 Hacker News Clone is a Rails application built by Brent Coughenour and Julie Mao during Dev Bootcamp as a practice problem to learn Ruby on Rails.
+The goal was initial familiarization with Rails architecture, so the project was built primarily without TDD.
 
 ## Features
 
