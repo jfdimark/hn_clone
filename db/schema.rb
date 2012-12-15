@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(:version => 20121117042050) do
     t.string   "title"
     t.integer  "user_id"
     t.integer  "comment_count", :default => 0
+    t.integer  "points",        :default => 0
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
-    t.integer  "points",        :default => 0
   end
 
   create_table "users", :force => true do |t|
